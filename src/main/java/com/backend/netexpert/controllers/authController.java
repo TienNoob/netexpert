@@ -1,6 +1,11 @@
 package com.backend.netexpert.controllers;
 
-import com.backend.netexpert.datatypes.auth_datatypes.*;
+import com.backend.netexpert.datatypes.auth_datatypes.model.forgotPassReq;
+import com.backend.netexpert.datatypes.auth_datatypes.model.forgotPassRes;
+import com.backend.netexpert.datatypes.auth_datatypes.model.loginReq;
+import com.backend.netexpert.datatypes.auth_datatypes.model.loginRes;
+import com.backend.netexpert.datatypes.auth_datatypes.model.registerReq;
+import com.backend.netexpert.datatypes.auth_datatypes.model.registerRes;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,17 +15,25 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.backend.netexpert.services.LoginService;
 @RestController
 @CrossOrigin
 @RequestMapping("api/auth")
 public class authController {
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login (@RequestBody login_req login_info)
+    private final LoginService loginService;
+
+    authController(LoginService loginService)
     {
-        login_res res = new login_res();
+        this.loginService = loginService;
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login (@RequestBody loginReq login_info)
+    {
+        loginRes res = new loginRes();
         
-        boolean existInDb = true; // Add db here
+        boolean existInDb = loginService.existAccount(login_info); // Add db here
 
         if (existInDb)
         {
@@ -32,9 +45,9 @@ public class authController {
         }
     }
     @PostMapping("/register")
-    public ResponseEntity<?> register (@RequestBody register_req resigter_info)
+    public ResponseEntity<?> register (@RequestBody registerReq resigter_info)
     {
-        register_res res = new register_res();
+        registerRes res = new registerRes();
 
         boolean validInfo = false;
         
@@ -50,9 +63,9 @@ public class authController {
         }
     }
     @PostMapping("/forgot-password")
-    public ResponseEntity<?> forgot_password (@RequestBody forgotPassword_req resigter_info)
+    public ResponseEntity<?> forgot_password (@RequestBody forgotPassReq resigter_info)
     {
-        forgotPassword_res res = new forgotPassword_res();
+        forgotPassRes res = new forgotPassRes();
 
         boolean emailExistInDB = false;
         

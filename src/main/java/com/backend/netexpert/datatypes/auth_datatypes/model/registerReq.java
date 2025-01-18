@@ -1,6 +1,6 @@
-package com.backend.netexpert.datatypes.auth_datatypes;
+package com.backend.netexpert.datatypes.auth_datatypes.model;
 
-public class register_req {
+public class registerReq {
     public String username;
     public String email;
     public String password;
