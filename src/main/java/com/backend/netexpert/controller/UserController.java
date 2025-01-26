@@ -21,15 +21,22 @@ public class UserController {
 
     private UserService userService;
 
-    @PostMapping("register")
-    UserRegisterResponse registerUser(@RequestBody UserRegisterRequest userRegisterRequest)
+    @PostMapping("register/1")
+    UserRegisterResponse PreRegisterRequest(@RequestBody UserRegisterV1Request userRegisterRequest)
     {   
-        return userService.registerRequest(userRegisterRequest);
+        return userService.PreRegisterRequest(userRegisterRequest);
+    }
+
+    @PostMapping("register/2")
+    UserRegisterResponse FinalRegisterUser(@RequestBody UserRegisterV2Request userRegisterRequest)
+    {   
+        return userService.FinalRegisterRequest(userRegisterRequest);
     }
 
     @PostMapping("login")
     UserLoginResponse loginUser(@RequestBody UserLoginRequest userLoginRequest) throws KeyLengthException, JOSEException
     {   
+        System.out.println(userLoginRequest.getPassword());
         return userService.loginRequest(userLoginRequest);
     }
 
