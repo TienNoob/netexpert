@@ -7,7 +7,7 @@ public class AIChatResponse {
 
     public String status;
     public String response;
-    public ArrayList<Device> devices;  // Change to List<Device> instead of List<Object>
+    public ArrayList<String> devices;  
     public ArrayList<Network> networks;
     public ArrayList<Object> blogs;  // You can keep it as Object if you expect no specific structure for blogs.
 

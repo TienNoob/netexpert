@@ -62,9 +62,11 @@ public class UserService {
 
         UserAccount userAccount = UserAccount.builder()
             .username(request.getUsername())
-            .password(passwordEncoder.encode(request.getPassword())) // encode password 
+            .password(request.getPassword()) // encode password 
             .role(Role.customer.name())
             .build();
+
+        System.out.println(passwordEncoder.encode(request.getPassword()));
 
         userAccountRepository.save(userAccount);    //save username, password to user_account
 
@@ -89,9 +91,9 @@ public class UserService {
                                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
         
         //check if the password matched
-        System.out.println(request.getPassword());
+        System.out.println(userAccount.getPassword());
 
-        boolean authenticated = passwordEncoder.matches(request.getPassword(), userAccount.getPassword()); // Hash passwords here later
+        boolean authenticated = request.getPassword().equals(userAccount.getPassword()); 
         if (!authenticated)
         {
             throw new AppException(ErrorCode.UNAUTHENTICATED);

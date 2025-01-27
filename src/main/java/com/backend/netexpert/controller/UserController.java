@@ -36,7 +36,7 @@ public class UserController {
     @PostMapping("login")
     UserLoginResponse loginUser(@RequestBody UserLoginRequest userLoginRequest) throws KeyLengthException, JOSEException
     {   
-        System.out.println(userLoginRequest.getPassword());
+        System.out.println("Da nhan request: " + userLoginRequest.getPassword());
         return userService.loginRequest(userLoginRequest);
     }
 

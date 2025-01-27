@@ -113,7 +113,7 @@ public class ChatController {
             aiChatResponse = objectMapper.readValue(aiResponseJson, AIChatResponse.class);
         } catch (JsonProcessingException e) {
 
-            //System.out.println("Loi mapper");
+            System.out.println("Loi mapper");
             return ResponseEntity.status(500).body("Error processing AI response");
         }
 
@@ -139,7 +139,8 @@ public class ChatController {
         response.put("status", "success");
         List<Map<String, Object> > listMessages = new ArrayList<>();
         if (aiChatResponse.networks.isEmpty())
-        {
+        {   
+            aiChatResponse.response += String.join(",", aiChatResponse.devices);
             Map<String, Object> tmp = new HashMap<>();
             tmp.put("from", "bot");
             tmp.put("contenttype", "markdown");
