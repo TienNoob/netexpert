@@ -14,7 +14,7 @@ public interface ChatMessageRepository extends JpaRepository<ChatMessage, Intege
     List<ChatMessage> findByChatIdAndRoleOrderByCreatedAtAsc(String chatId, String role);
     List<ChatMessage> findByChat_UserIdOrderByCreatedAtDesc(String userId);
 
-    List<ChatMessage> findTopByChatIdOrderByCreatedAtDesc(String chatId, Pageable pageable);
+    List<ChatMessage> findByChatIdOrderByCreatedAtDesc(String chatId, Pageable pageable);
     List<ChatMessage> findAllByOrderByCreatedAtDesc(Pageable pageable);
 
     

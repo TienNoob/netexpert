@@ -77,6 +77,7 @@ public class ChatController {
                 .build();
         chatMessageService.save(userMessage);
 
+        System.out.println(chatMessageService.getLatestChatMessagesWithChatId(request.getChatId(), 11).size());
         // Get AI response
         String aiResponseJson = aiCoreService.requestAiCore(
                 name,
