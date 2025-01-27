@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.client.RestTemplate;
 
-import com.backend.netexpert.entity.HistoryJsonConverter;
 import com.backend.netexpert.entity.UserAccount;
 import com.backend.netexpert.enums.Role;
 import com.backend.netexpert.repository.UserAccountRepository;
@@ -33,7 +32,7 @@ public class ApplicationInitConfig {
             {
                  UserAccount user = UserAccount.builder()
                     .username("admin")
-                    .password(passwordEncoder.encode("admin"))
+                    .password("admin")
                     .role(Role.admin.name())
                     .build();
                 userAccountRepository.save(user);

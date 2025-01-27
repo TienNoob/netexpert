@@ -9,7 +9,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.backend.netexpert.dto.fe.request.UserLoginRequest;
-import com.backend.netexpert.dto.fe.request.UserRegisterRequest;
+import com.backend.netexpert.dto.fe.request.UserRegisterV1Request;
+import com.backend.netexpert.dto.fe.request.UserRegisterV2Request;
 import com.backend.netexpert.dto.fe.response.UserLoginResponse;
 import com.backend.netexpert.dto.fe.response.UserRegisterResponse;
 import com.backend.netexpert.entity.*;
@@ -40,19 +41,33 @@ public class UserService {
         this.authenService = authenService;
     }
 
-    //Register function - Will update to authorize by emails (Later)
-    public UserRegisterResponse registerRequest(UserRegisterRequest request) // Register Request
-    {   
-        UserAccount userAccount = UserAccount.builder()
-            .username(request.getUsername())
-            .password(passwordEncoder.encode(request.getPassword())) // encode password 
-            .role(Role.customer.name())
-            .build();
+    
 
-        if (userAccountRepository.existsByUsername(request.getUsername()))
+    //Register function - Will update to authorize by emails (Later)
+
+    public UserRegisterResponse PreRegisterRequest(UserRegisterV1Request request)
+    {   
+        if (userAccountRepository.existsByUsername(request.getUsername())) // check if user existed in database
         {
             throw new AppException(ErrorCode.USER_EXISTED);
         }
+        return UserRegisterResponse.builder().message("First checkpoint OK").build();
+    }
+    public UserRegisterResponse FinalRegisterRequest(UserRegisterV2Request request) // Register Request
+    {       
+        if (userAccountRepository.existsByUsername(request.getUsername())) // check if user existed in database
+        {
+            throw new AppException(ErrorCode.USER_EXISTED);
+        }
+
+        UserAccount userAccount = UserAccount.builder()
+            .username(request.getUsername())
+            .password(request.getPassword()) // encode password 
+            .role(Role.customer.name())
+            .build();
+
+        System.out.println(passwordEncoder.encode(request.getPassword()));
+
         userAccountRepository.save(userAccount);    //save username, password to user_account
 
         UserInfo userInfo = UserInfo.builder()
@@ -76,7 +91,9 @@ public class UserService {
                                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
         
         //check if the password matched
-        boolean authenticated = passwordEncoder.matches(request.getPassword(), userAccount.getPassword()); // Hash passwords here later
+        System.out.println(userAccount.getPassword());
+
+        boolean authenticated = request.getPassword().equals(userAccount.getPassword()); 
         if (!authenticated)
         {
             throw new AppException(ErrorCode.UNAUTHENTICATED);

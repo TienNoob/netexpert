@@ -27,7 +27,7 @@ import org.springframework.web.client.RestTemplate;
 public class SecurityConfig {
 
     private final String[] PUBLIC_ENPOINTS = {
-        "/auth/register", "/auth/login"
+        "/auth/register/1", "/auth/login", "/auth/register/2"
     };
 
     @Value("${jwt.signerKey}")

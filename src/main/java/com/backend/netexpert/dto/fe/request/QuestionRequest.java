@@ -9,5 +9,7 @@ import lombok.Setter;
 @Setter
 public class QuestionRequest {
     private String question;
+
     private String chatId;
+
 }
