@@ -43,7 +43,7 @@ public class ChatMessageService {
 
     public List<ChatMessage> getLatestChatMessagesWithChatId(String chatId, int amount) {
         Pageable pageable = PageRequest.of(0, amount); // Create a Pageable with the specified 'amount'
-        return chatMessageRepository.findTopByChatIdOrderByCreatedAtDesc(chatId, pageable);
+        return chatMessageRepository.findByChatIdOrderByCreatedAtDesc(chatId, pageable);
     }
 
     public List<ChatMessage> getLatestChatMessages(int limit) {
